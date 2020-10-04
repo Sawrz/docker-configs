@@ -25,6 +25,8 @@ sudo docker volume ls
 
 ### Edit the env-file
 
+Everything you need to change before starting up the container is surrounded by `<>`.
+
 1. Copy the `example.env` file and name it `.env`:
 
     ``` bash
