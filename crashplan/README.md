@@ -4,7 +4,7 @@
 
 ## Preparations
 
-The preparations usually consist of two steps. First, create volumes, networks, and/or folder. Second, edit the .env file.
+First, we need to prepare some things before we can actually start the Docker container.
 
 ### Create Volumes
 
