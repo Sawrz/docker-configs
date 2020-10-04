@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+  cryptpad:
+    image: "promasu/cryptpad:${VERSION}"
+    container_name: cryptpad_server
+    hostname: cryptpad
+    restart: always
+    volumes:
+      - type: bind
+        target: /cryptpad/blob
+        source: ${ROOT_DIR}/data/blob
+      - type: bind
+        target: /cryptpad/block
+        source: ${ROOT_DIR}/data/block
+      - type: bind
+        target: /cryptpad/data
+        source: ${ROOT_DIR}/data/data
+      - type: bind
+        target: /cryptpad/datastore
+        source: ${ROOT_DIR}/data/files
+      - type: bind
+        target: /cryptpad/config/config.js
+        source: ${ROOT_DIR}/data/config.js
+      - type: bind
+        target: /cryptpad/customize
+        source: ${ROOT_DIR}/customize
+    ulimits:
+      nofile:
+        soft: 1000000
+        hard: 1000000
+    networks:
+      - reverse-proxy
+    labels:
+      # Reverse proxy and certificate
+      - "traefik.enable=true"
+      - "traefik.docker.network=reverse-proxy"
+      # Website Configuration
+      - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}"
+      - "traefik.http.routers.${SERVICE_NAME}.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=3000"
+      # Sandbox
+      #- "traefik.http.routers.${SERVICE_NAME}-sandbox.rule=Host(`${SANDBOX_URL}`)"
+      #- "traefik.http.routers.${SERVICE_NAME}-sandbox.tls.certresolver=myresolver"
+      #- "traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}-sandbox"
+      #- "traefik.http.routers.${SERVICE_NAME}-sandbox.entrypoints=websecure"
+      #- "traefik.http.routers.${SERVICE_NAME}-sandbox.tls=true"
+      #- "traefik.http.services.${SERVICE_NAME}-sandbox.loadbalancer.server.port=3001"
+
+networks:
+  reverse-proxy:
+    external: true
+
