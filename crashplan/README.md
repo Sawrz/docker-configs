@@ -47,7 +47,8 @@ sudo docker volume ls
 
 In case you want to multiple backup folders, you need to add additional volumes of the type `bind` in the
 `docker-compose.yml`. However, I recommend using it in combination with [Borg](https://www.borgbackup.org/).
-You find a quick installation guide [here](https://docs.lazymedia.net/data-management/borg/).
+You find a quick installation guide for Ubuntu- and Arch-based distributions
+[here](https://docs.lazymedia.net/data-management/borg/).
 
 ## Run docker-compose File
 
