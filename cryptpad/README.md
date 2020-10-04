@@ -1,7 +1,7 @@
 # Docker Container for CryptPad
 
 [CryptPad](https://github.com/xwiki-labs/cryptpad) is a zero-knowledge collaborative editor. It provides many features
-you would expect from [Google Docs, Sheets, Slides, etc.](https://www.google.com/sheets/about/). In contrast to Google,
+you would expect from [Google Docs, Sheets, Slides, etc](https://www.google.com/sheets/about/). In contrast to Google,
 however, CryptPad focuses on privacy and encrypts your data. Another benefit is that the
 [Docker container](https://github.com/xwiki-labs/cryptpad-docker) runs on your server, so you have the most possible
 level of control.
@@ -15,14 +15,12 @@ First, we need to prepare some things before we can actually start the Docker co
 
 ### Create Folders & Files
 
-I recommend creating a main folder first. Let's call it the main directory. All files of your service will be located
-here. Now, change directories and create here subfolders to store all your data:
+All files of your service will be in your main directory (the folder with the Docker files). Now, create here
+subfolders to store your data:
 
 ``` bash
 mkdir -p data/blob data/block data/data data/files customize
 ```
-
-Check if everything worked out by checking the directory.
 
 Now, create the configuration file by copying `example.config.js`:
 
@@ -30,7 +28,7 @@ Now, create the configuration file by copying `example.config.js`:
 cp example.config.js data/config.js
 ```
 
-Finally, change the ownership of the `data` and `customize/` folder to `4001`:
+Finally, change the ownership of the `data` and `customize` folder to `4001`:
 
 ``` bash
 sudo chown -R 4001:4001 data/ customize/
