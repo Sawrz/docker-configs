@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  web:
+    image: jlesage/crashplan-pro:${VERSION}
+    container_name: crashplan
+    restart: always
+    environment:
+      - CRASHPLAN_SRV_MAX_MEM=${MAX_RAM_ALLOCATION}
+    network_mode: bridge
+    ports:
+      - '5800:5800'
+    volumes:
+      - type: volume
+        target: /config
+        source: config
+      - type: volume
+        target: /storage
+        source: storage
+      - type: bind
+        target: /mnt/vault
+        source: ${BACKUP_LOCATION}
+
+volumes:
+  config:
+    name: crashplan_config
+    external: true
+  storage:
+    name: crashplan_storage
+    external: true

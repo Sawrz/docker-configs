@@ -1,0 +1,52 @@
+# Docker Container for CrashPlan Pro
+
+[CrashPlan](https://www.crashplan.com/en-us/) is a paid cloud backup solution. This [Docker container](https://github.com/jlesage/docker-crashplan-pro) emulates the GUI of the CrashPlan application via VNC. So, you can access it via your web browser.
+
+## Preparations
+
+The preparations usually consist of two steps. First, create volumes, networks, and/or folder. Second, edit the .env file.
+
+### Create Volumes
+
+Create the volumes to store the configurations and dummy storage:
+
+``` bash
+sudo docker volume create crashplan_config
+sudo docker volume create crashplan_storage
+```
+
+Check if they got created with:
+
+``` bash
+sudo docker volume ls
+```
+
+### Edit the env-file
+
+1. Copy the `example.env` file and name it `.env`:
+
+    ``` bash
+    cp example.env .env
+    ```
+
+1. Open `.env`:
+
+    ``` bash
+    vim .env
+    ```
+
+1. Check [here](https://hub.docker.com/r/jlesage/crashplan-pro/tags) if there is a new version available. If there is a new version available, change the `VERSION` variable to that version.
+
+1. Adjust the maximum RAM allocation for CrashPlan with the `MAX_RAM_ALLOCATION`. I use 32Gb because my server has 64Gb installed.
+
+1. Enter the path of the folder you want to backup to `BACKUP_LOCATION`.
+
+In case you want to multiple backup folders, you need to add additional volumes of the type `bind` in the `docker-compose.yml`. However, I recommend using it in combination with [Borg](https://www.borgbackup.org/). You find a quick installation guide [here](https://docs.lazymedia.net/data-management/borg/).
+
+## Run docker-compose File
+
+Finally, start the docker container with:
+
+``` bash
+docker-compose -d -p crashplan up
+```
