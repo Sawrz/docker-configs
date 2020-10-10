@@ -1,0 +1,77 @@
+version: '3.7'
+
+services:
+  web:
+    image: gitlab/gitlab-ce:${IMAGE_VERSION}
+    container_name: gitlab
+    restart: always
+    hostname: ${URL}
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        # Web Interface
+        external_url 'https://${URL}';
+        nginx['listen_port'] = 80;
+        nginx['listen_https'] = false;
+        # SSH
+        gitlab_rails['gitlab_shell_ssh_port'] = ${SSH_PORT};
+        # Registry
+        registry_external_url 'https://registry.${URL}';
+        registry_nginx['listen_port'] = 80;
+        registry_nginx['listen_https'] = false;
+        # Pages
+        pages_external_url 'https://pages.${URL}';
+        pages_nginx['listen_port'] = 80;
+        pages_nginx['listen_https'] = false;
+        gitlab_pages['inplace_chroot'] = true;
+    labels:
+      # Reverse proxy
+      - "traefik.enable=true"
+      - "traefik.docker.network=reverse-proxy"
+      # Website Configuration
+      - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}"
+      - "traefik.http.routers.${SERVICE_NAME}.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=80"
+      # SSH Configuration
+      - "traefik.tcp.routers.${SERVICE_NAME}-ssh.entrypoints=ssh"
+      - "traefik.tcp.routers.${SERVICE_NAME}-ssh.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.${SERVICE_NAME}-ssh.service=${SERVICE_NAME}-ssh"
+      - "traefik.tcp.services.${SERVICE_NAME}-ssh.loadbalancer.server.port=22"
+      # Registry Configuration
+      - "traefik.http.routers.${SERVICE_NAME}-registry.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}-registry.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}-registry.rule=Host(`registry.${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}-registry.service=${SERVICE_NAME}-registry"
+      - "traefik.http.routers.${SERVICE_NAME}-registry.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}-registry.loadbalancer.server.port=80"
+      # Pages Configuration
+      - "traefik.http.routers.${SERVICE_NAME}-pages.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}-pages.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}-pages.rule=Host(`pages.${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}-pages.service=${SERVICE_NAME}-pages"
+      - "traefik.http.routers.${SERVICE_NAME}-pages.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}-pages.loadbalancer.server.port=80"
+    volumes:
+      - type: bind
+        target: /etc/gitlab
+        source: ${ROOT_DIR}/config
+      - type: bind
+        target: /var/opt/gitlab
+        source: ${ROOT_DIR}/data
+      - type: volume
+        target: /var/log/gitlab
+        source: logs
+    networks:
+      - reverse-proxy
+
+volumes:
+  logs:
+    name: gitlab_log
+    external: true
+
+networks:
+  reverse-proxy:
+    external: true
+
