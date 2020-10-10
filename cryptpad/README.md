@@ -50,8 +50,8 @@ Everything you need to change before starting up the container is surrounded by 
     vim .env
     ```
 
-1. Check [here](https://hub.docker.com/r/promasu/cryptpad/tags) if there is a new version available. If there is a
-   new version available, change the `VERSION` variable to that version.
+1. Check [here](https://hub.docker.com/r/promasu/cryptpad/tags) if there is a new version available. If that's the
+   case, change the `VERSION` variable to that version.
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
@@ -59,6 +59,13 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Enter a sandbox URL you want CryptPad to be reachable in `SANDBOX_URL`. That URL is not very important in production
    environments, but its included for the sake of completeness.
+
+### Setup the URLs
+
+This part has less to do with docker but more with the Domain administration. Create the following URLs on the
+interface of your domain host:
+
+1. The URL you chose for `URL`
 
 ## Run docker-compose File
 
@@ -89,4 +96,3 @@ After starting your container and signing up, you still don't have admin privile
 1. Restart your Docker container
 
 After logging in, you have an admin panel on the right side.
-
