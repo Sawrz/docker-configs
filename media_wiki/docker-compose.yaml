@@ -1,0 +1,66 @@
+version: '3.7'
+services:
+  db:
+    image: mariadb
+    container_name: wiki-${SERVICE_NAME}_db
+    restart: always
+    volumes:
+      - type: bind
+        target: /var/lib/mysql
+        source: ${ROOT_DIR}/db
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${DB_USER_PASSWORD}
+    networks:
+      - backend
+
+  mediawiki:
+    image: mediawiki:${MEDIAWIKI_VERSION}
+    container_name: wiki-${SERVICE_NAME}_mediawiki
+    restart: always
+    ports:
+      - 1337:80
+    volumes:
+      - type: bind
+        target: /var/www/html
+        source: ${ROOT_DIR}/data
+    networks:
+      - backend
+      - reverse-proxy
+    labels:
+      # Reverse proxy and certificate
+      - "traefik.enable=true"
+      - "traefik.docker.network=reverse-proxy"
+      # Website Configuration
+      - "traefik.http.routers.${SERVICE_NAME}-mediawiki.rule=Host(`${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}-mediawiki.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}-mediawiki.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}-mediawiki.service=${SERVICE_NAME}"
+      - "traefik.http.routers.${SERVICE_NAME}-mediawiki.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}-mediawiki.loadbalancer.server.port=80"
+
+  parsoid:
+    image: thenets/parsoid:${PARSOID_VERSION}
+    container_name: wiki-${SERVICE_NAME}_parsoid
+    restart: always
+    volumes:
+      - type: volume
+        target: /var/lib/parsoid
+        source: parsoid_config
+    networks:
+      - backend
+    environment:
+      - PARSOID_DOMAIN_localhost=http://wiki-${SERVICE_NAME}_mediawiki:80/api.php
+      - PARSOID_STRICT_SSL=true
+
+volumes:
+  parsoid_config:
+    name: wiki-${SERVICE_NAME}_parsoid-data
+
+networks:
+  backend:
+    name: wiki-${SERVICE_NAME}
+  reverse-proxy:
+    external: true
