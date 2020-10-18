@@ -57,7 +57,7 @@ Everything you need to change before starting up the container is surrounded by 
 
 ### Setup the URLs
 
-This part has less to do with docker but more with the Domain administration. Create the following URLs on the
+This part has less to do with Docker but more with the Domain administration. Create the following URLs on the
 interface of your domain host:
 
 1. The URL you chose for `URL` (from now on, we substitute the URL you chose with `URL`)
@@ -66,10 +66,10 @@ interface of your domain host:
 
 ## Run docker-compose File
 
-Finally, start the docker container with:
+Finally, start the Docker container with:
 
 ``` bash
-docker-compose -d -p gitlab up
+docker-compose -p gitlab up -d
 ```
 
 Enter your `URL` and choose a password. Log in with the username `root` and the password you chose.

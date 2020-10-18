@@ -62,17 +62,17 @@ Everything you need to change before starting up the container is surrounded by 
 
 ### Setup the URLs
 
-This part has less to do with docker but more with the Domain administration. Create the following URLs on the
+This part has less to do with Docker but more with the Domain administration. Create the following URLs on the
 interface of your domain host:
 
 1. The URL you chose for `URL`
 
 ## Run docker-compose File
 
-Finally, start the docker container with:
+Finally, start the Docker container with:
 
 ``` bash
-docker-compose -d -p cryptpad up
+docker-compose -p cryptpad up -d
 ```
 
 Open your URL and Sign Up. Now you have access to your own CrypPad instance.

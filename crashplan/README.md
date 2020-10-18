@@ -54,8 +54,8 @@ In case you want to multiple backup folders, you need to add additional volumes 
 
 ## Run docker-compose File
 
-Finally, start the docker container with:
+Finally, start the Docker container with:
 
 ``` bash
-docker-compose -d -p crashplan up
+docker-compose -p crashplan up -d
 ```

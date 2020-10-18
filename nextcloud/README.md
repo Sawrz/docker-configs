@@ -66,17 +66,17 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Choose a password for the Nextcloud administrator and set the value in `ADMIN_PASSWORD`.
 
-### Start your Docker container to generate configuration files
+### Generate Config
 
-Start the docker container with:
+Start the Docker container with:
 
 ``` bash
-docker-compose -d -p nextcloud up
+docker-compose -p nextcloud up -d
 ```
 
 ### Setup the URL
 
-This part has less to do with docker but more with the Domain administration. Create the following URLs on the
+This part has less to do with Docker but more with the Domain administration. Create the following URLs on the
 interface of your domain host:
 
 1. The URL you chose for `URL` (from now on, we substitute the URL you chose with `URL`)
