@@ -1,0 +1,112 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb
+    container_name: nextcloud_db
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: always
+    volumes:
+      - type: bind
+        target: /var/lib/mysql
+        source: ${ROOT_DIR}/db
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${DB_USER_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+
+  redis:
+    image: redis:alpine
+    container_name: nextcloud_redis
+    restart: always
+    volumes:
+      - type: volume
+        target: /data
+        source: redis_data
+    networks:
+      - backend
+
+  nextcloud:
+    image: nextcloud:${VERSION}
+    container_name: nextcloud_server
+    restart: always
+    volumes:
+      - type: bind
+        target: /var/www/html/data
+        source: ${DATA_DIR}/data
+      - type: bind
+        target: /var/www/html
+        source: ${ROOT_DIR}/html
+    networks:
+      - backend
+    environment:
+      - NEXTCLOUD_ADMIN_USER=${ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - MYSQL_HOST=nextcloud_db
+      - MYSQL_PASSWORD=${DB_USER_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - NEXTCLOUD_DATA_DIR=/var/www/html/data
+      - NEXTCLOUD_TRUSTED_DOMAINS=${URL}
+    depends_on:
+      - db
+      - redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: nextcloud_nginx
+    restart: always
+    volumes:
+      - type: bind
+        target: /var/www/html
+        source: ${ROOT_DIR}/html
+        read_only: true
+      - type: bind
+        target: /etc/nginx/nginx.conf
+        source: ${ROOT_DIR}/config/nginx.conf
+        read_only: true
+    networks:
+      - backend
+      - reverse-proxy
+    labels:
+      # Reverse proxy and certificate
+      - "traefik.enable=true"
+      - "traefik.docker.network=reverse-proxy"
+      # Website Configuration
+      - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}"
+      - "traefik.http.routers.${SERVICE_NAME}.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=80"
+    depends_on:
+      - nextcloud
+
+  cron:
+    image: nextcloud:${IMAGE_VERSION}
+    container_name: nextcloud_cron
+    restart: always
+    volumes:
+      - type: bind
+        target: /var/www/html
+        source: ${ROOT_DIR}/html
+    networks:
+      - backend
+    entrypoint: /cron.sh
+    depends_on:
+      - db
+      - redis
+
+networks:
+  backend:
+    name: nextcloud
+  reverse-proxy:
+    external: true
+
+volumes:
+  redis_data:
+    name: nextcloud-redis_data
+    external: true
