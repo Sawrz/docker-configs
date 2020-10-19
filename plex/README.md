@@ -1,6 +1,8 @@
 # Docker Container for Plex
 
-[Plex](https://www.plex.tv/) is a client-server media player solution to create your personal (non-commercial) video streaming service like Netflix, etc. Keep in mind you need the video files on the Plex server. So don't break any laws by obtaining them!
+[Plex](https://www.plex.tv/) is a client-server media player solution to create your personal (non-commercial) video
+streaming service like Netflix, etc. Keep in mind, you need the video files on the Plex server. So don't break any laws
+by obtaining them!
 
 ## Preparations
 
@@ -15,7 +17,7 @@ subfolders to store your configurations:
 mkdir -p config
 ```
 
-In addition to that create two folder in the location where your video files will reside:
+Also, create two folders in the location where your video files will reside:
 
 ``` bash
 mkdir -p media/original media/transcode
