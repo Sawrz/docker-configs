@@ -6,6 +6,7 @@ services:
     container_name: crashplan
     restart: always
     environment:
+      - SUP_GROUP_IDS=${GROUP_IDS}
       - CRASHPLAN_SRV_MAX_MEM=${MAX_RAM_ALLOCATION}
     network_mode: bridge
     ports:

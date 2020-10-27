@@ -42,6 +42,8 @@ Everything you need to change before starting up the container is surrounded by 
 1. Check [here](https://hub.docker.com/r/jlesage/crashplan-pro/tags) if there is a new version available. If that's the
    case, change the `VERSION` variable to that version.
 
+1. If you use other Docker containers, affected folders may belong to different users and groups. Add those groups to `GROUP_IDS` to upload those folders to CrashPlan.
+
 1. Adjust the maximum RAM allocation for CrashPlan with the `MAX_RAM_ALLOCATION`. I use 32 GB because my server has 64
    GB installed.
 
