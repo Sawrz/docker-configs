@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  web:
+    image: portainer/portainer:${VERSION}
+    container_name: portainer 
+    restart: always
+    network_mode: bridge
+    ports:
+      - '8000:8000'
+      - '9000:9000'
+    volumes:
+      - type: bind 
+        target: /var/run/docker.sock 
+        source: /var/run/docker.sock 
+      - type: bind 
+        target: /data 
+        source: ${ROOT_DIR}/data 
