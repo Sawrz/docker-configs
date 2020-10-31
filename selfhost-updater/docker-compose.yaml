@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  dyndns:
+    image: sawrz/selfhost-updater
+    container_name: selfhost-updater
+    restart: always
+    volumes:
+      - type: volume
+        target: /etc/selfhost
+        source: data
+    environment:
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
+    networks:
+      - backend
+
+volumes:
+  data:
+    name: selfhost-updater_data
+
+networks:
+  backend:
+    name: selfhost-updater
