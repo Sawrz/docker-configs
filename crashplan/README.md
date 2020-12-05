@@ -8,21 +8,6 @@
 
 First, we need to prepare some things before we can actually start the Docker container.
 
-### Create Volumes
-
-Create the volumes to store the configurations and dummy storage:
-
-``` bash
-sudo docker volume create crashplan_config
-sudo docker volume create crashplan_storage
-```
-
-Check if they got created with:
-
-``` bash
-sudo docker volume ls
-```
-
 ### Edit the env-file
 
 Everything you need to change before starting up the container is surrounded by `<>`.
