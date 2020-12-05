@@ -7,20 +7,6 @@ issue tracking, and a continuous integration pipeline, to name a few.
 
 First, we need to prepare some things before we can actually start the Docker container.
 
-### Create Volumes
-
-Create the volumes to store the logs:
-
-``` bash
-sudo docker volume create gitlab_log
-```
-
-Check if they got created with:
-
-``` bash
-sudo docker volume ls
-```
-
 ### Create Folders & Files
 
 All files of your service will be in your main directory (the folder with the Docker files). Now, create here

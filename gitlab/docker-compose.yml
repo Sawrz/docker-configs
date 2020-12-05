@@ -69,7 +69,6 @@ services:
 volumes:
   logs:
     name: gitlab_log
-    external: true
 
 networks:
   reverse-proxy:
