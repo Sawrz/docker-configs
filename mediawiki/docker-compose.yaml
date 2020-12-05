@@ -37,7 +37,7 @@ services:
       - "traefik.http.routers.${SERVICE_NAME}-mediawiki.rule=Host(`${URL}`)"
       - "traefik.http.routers.${SERVICE_NAME}-mediawiki.tls.certresolver=myresolver"
       - "traefik.http.routers.${SERVICE_NAME}-mediawiki.entrypoints=websecure"
-      - "traefik.http.routers.${SERVICE_NAME}-mediawiki.service=${SERVICE_NAME}"
+      - "traefik.http.routers.${SERVICE_NAME}-mediawiki.service=${SERVICE_NAME}-mediawiki"
       - "traefik.http.routers.${SERVICE_NAME}-mediawiki.tls=true"
       - "traefik.http.services.${SERVICE_NAME}-mediawiki.loadbalancer.server.port=80"
 
