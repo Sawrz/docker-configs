@@ -10,9 +10,9 @@ services:
         target: /etc/selfhost
         source: data
     environment:
-      USERNAME: ${USERNAME}
+      USERID: ${USERNAME}
       PASSWORD: ${PASSWORD}
-      URL: remote.selfhost.de
+      URL: remote.selfhost.de 
     networks:
       - backend
 
