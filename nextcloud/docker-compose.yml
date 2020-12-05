@@ -86,7 +86,7 @@ services:
       - nextcloud
 
   cron:
-    image: nextcloud:${IMAGE_VERSION}
+    image: nextcloud:${VERSION}
     container_name: nextcloud_cron
     restart: always
     volumes:
@@ -109,4 +109,3 @@ networks:
 volumes:
   redis_data:
     name: nextcloud-redis_data
-    external: true
