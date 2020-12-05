@@ -25,7 +25,5 @@ services:
 volumes:
   config:
     name: crashplan_config
-    external: true
   storage:
     name: crashplan_storage
-    external: true
