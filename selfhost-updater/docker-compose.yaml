@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   dyndns:
-    image: sawrz/selfhost-updater
+    image: mmprivat/selfhost-updater:${VERSION} 
     container_name: selfhost-updater
     restart: always
     volumes:
@@ -12,6 +12,7 @@ services:
     environment:
       USERNAME: ${USERNAME}
       PASSWORD: ${PASSWORD}
+      URL: remote.selfhost.de
     networks:
       - backend
 
