@@ -26,9 +26,7 @@ Everything you need to change before starting up the container is surrounded by 
     vim .env
     ```
 
-1. Check [here](https://hub.docker.com/r/sawrz/selfhost-updater/tags) if there is a new version
-available. If that's the case, change the `VERSION` variable to that version.
-
+1. Check [here](https://hub.docker.com/r/sawrz/selfhost-updater/tags) if there is a new version available. If that's the case, change the `VERSION` variable to that version.
 1. Change `USERNAME`s value to the one selfHOST gives you.
 1. Change `PASSWORD`s value to the one selfHOST provides you.
 
