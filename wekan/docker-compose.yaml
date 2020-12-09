@@ -1,0 +1,109 @@
+version: '3.7'
+
+services:
+  database:
+      image: mongo:${MONGODB_VERSION}
+      container_name: wekan_db
+      restart: always
+      command: mongod --oplogSize 128
+      volumes:
+        - type: bind
+          target: /data/db
+          source: ${ROOT_DIR}/db/data
+        - type: bind
+          target: /dump
+          source: ${ROOT_DIR}/db/dump
+      networks:
+        - backend
+  wekan:
+    image: "wekanteam/wekan:${WEKAN_VERSION}"
+    container_name: wekan_server
+    restart: always
+    networks:
+      - backend
+      - reverse-proxy
+    environment:
+      - MONGO_URL=mongodb://database:27017/wekan
+      #---------------------------------------------------------------
+      # ==== ROOT_URL SETTING ====
+      - ROOT_URL=https://${URL}
+      #---------------------------------------------------------------
+      # ==== EMAIL SETTINGS ====
+      # Email settings are required in both MAIL_URL and Admin Panel,
+      #   see https://github.com/wekan/wekan/wiki/Troubleshooting-Mail
+      #   For SSL in email, change smtp:// to smtps://
+      # NOTE: Special characters need to be url-encoded in MAIL_URL.
+      #       You can encode those characters for example at: https://www.urlencoder.org
+      #- MAIL_URL=smtp://user:pass@mailserver.example.com:25/
+      #- MAIL_URL=smtp://<mail_url>:25/?ignoreTLS=true&tls={rejectUnauthorized:false}
+      #- MAIL_FROM=Wekan Notifications <noreply.wekan@mydomain.com>
+      #---------------------------------------------------------------
+      # ==== WEKAN API AND EXPORT BOARD ====
+      # Wekan Export Board works when WITH_API=true.
+      # https://github.com/wekan/wekan/wiki/REST-API
+      # https://github.com/wekan/wekan-gogs
+      # If you disable Wekan API with false, Export Board does not work.
+      - WITH_API=true
+      #---------------------------------------------------------------
+      # ==== PASSWORD BRUTE FORCE PROTECTION ====
+      #https://atmospherejs.com/lucasantoniassi/accounts-lockout
+      #Defaults below. Uncomment to change. wekan/server/accounts-lockout.js
+      - ACCOUNTS_LOCKOUT_KNOWN_USERS_FAILURES_BEFORE=3
+      - ACCOUNTS_LOCKOUT_KNOWN_USERS_PERIOD=60
+      - ACCOUNTS_LOCKOUT_KNOWN_USERS_FAILURE_WINDOW=15
+      - ACCOUNTS_LOCKOUT_UNKNOWN_USERS_FAILURES_BERORE=3
+      - ACCOUNTS_LOCKOUT_UNKNOWN_USERS_LOCKOUT_PERIOD=60
+      - ACCOUNTS_LOCKOUT_UNKNOWN_USERS_FAILURE_WINDOW=30
+      #---------------------------------------------------------------
+      # ==== RICH TEXT EDITOR IN CARD COMMENTS ====
+      # https://github.com/wekan/wekan/pull/2560
+      - RICHER_CARD_COMMENT_EDITOR=false
+      #---------------------------------------------------------------
+      # ==== CARD OPENED, SEND WEBHOOK MESSAGE ====
+      # https://github.com/wekan/wekan/issues/2518
+      - CARD_OPENED_WEBHOOK_ENABLED=false
+      #---------------------------------------------------------------
+      # ==== BIGEVENTS DUE ETC NOTIFICATIONS =====
+      # https://github.com/wekan/wekan/pull/2541
+      # Introduced a system env var BIGEVENTS_PATTERN default as "NONE",
+      # so any activityType matches the pattern, system will send out
+      # notifications to all board members no matter they are watching
+      # or tracking the board or not. Owner of the wekan server can
+      # disable the feature by setting this variable to "NONE" or
+      # change the pattern to any valid regex. i.e. '|' delimited
+      # activityType names.
+      # a) Example
+      #- BIGEVENTS_PATTERN=due
+      # b) All
+      #- BIGEVENTS_PATTERN=received|start|due|end
+      # c) Disabled
+      - BIGEVENTS_PATTERN=NONE
+      #---------------------------------------------------------------
+      # ==== BROWSER POLICY AND TRUSTED IFRAME URL ====
+      # Enable browser policy and allow one trusted URL that can have iframe that has Wekan embedded inside.
+      # Setting this to false is not recommended, it also disables all other browser policy protections
+      # and allows all iframing etc. See wekan/server/policy.js
+      - BROWSER_POLICY_ENABLED=true
+      # When browser policy is enabled, HTML code at this Trusted URL can have iframe that embeds Wekan inside.
+      #- TRUSTED_URL=https://intra.example.com
+      #-----------------------------------------------------------------
+    labels:
+      # Reverse proxy and certificate
+      - "traefik.enable=true"
+      - "traefik.docker.network=reverse-proxy"
+      # Website Configuration
+      - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}"
+      - "traefik.http.routers.${SERVICE_NAME}.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=8080"
+    depends_on:
+      - database
+
+networks:
+  backend:
+    name: wekan
+  reverse-proxy:
+    external: true
+
