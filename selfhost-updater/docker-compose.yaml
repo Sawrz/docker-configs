@@ -10,7 +10,7 @@ services:
         target: /etc/selfhost
         source: data
     environment:
-      USERID: ${USERNAME}
+      USERNAME: ${USERNAME}
       PASSWORD: ${PASSWORD}
     networks:
       - backend
