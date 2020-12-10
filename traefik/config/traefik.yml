@@ -1,0 +1,53 @@
+## traefik.yml
+
+# Docker configuration backend
+providers:
+  docker:
+    defaultRule: "Host(`{{ trimPrefix `/` .Name }}.docker.localhost`)"
+
+# API and dashboard configuration
+api:
+  insecure: true
+
+# Enabling ACME
+entryPoints:
+  web:
+    address: ":80"
+
+  websecure:
+    address: ":443"
+
+  ssh:
+    address: ":1022"
+
+  smtp:
+    address: ":25"
+
+  smtp_ssl:
+    address: ":465"
+
+  starttls:
+    address: ":587"
+
+  imap:
+    address: ":143"
+
+  imap_ssl:
+    address: ":993"
+
+  pop3:
+    address: ":110"
+
+  pop3_ssl:
+    address: ":995"
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+      email: <YOUR EMAIL ADDRESS>
+      storage: /letsencrypt/acme.json
+      httpChallenge:
+        # used during the challenge
+        entryPoint: web
+

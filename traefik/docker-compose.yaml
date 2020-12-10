@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  reverse-proxy:
+    # The official v2.0 Traefik docker image
+    image: traefik:${IMAGE_VERSION}
+    container_name: traefik
+    restart: always
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The HTTPS port
+      - "443:443"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+      # The SSH port
+      - "1022:1022"
+    labels:
+      # middleware redirect
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      # global redirect to https
+      - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.redirs.entrypoints=web"
+      - "traefik.http.routers.redirs.middlewares=redirect-to-https"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - type: bind
+        target: /var/run/docker.sock 
+        source: /var/run/docker.sock
+      # Traefik configuration folder
+      - type: bind
+        target: /etc/traefik/traefik.yml
+        source: ${ROOT_DIR}/config/traefik.yml
+      # Treafik certificate folder
+      - type: bind
+        target: /letsencrypt
+        source: ${ROOT_DIR}/certs
+    networks:
+      - reverse-proxy
+
+networks:
+  reverse-proxy:
+    name: reverse-proxy
