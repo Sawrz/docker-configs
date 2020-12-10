@@ -1,0 +1,64 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb 
+    container_name: huginn_db 
+    restart: always
+    volumes:
+      - type: bind
+        target: /var/lib/mysql
+        source: ${ROOT_DIR}/db
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_USER_PASSWORD}
+
+
+  huginn:
+    image: huginn/huginn:${VERSION}
+    container_name: huginn_server
+    restart: always
+    volumes:
+      - type: bind
+        target: /logs
+        source: /var/log/custom/
+    networks:
+      - backend
+      - reverse-proxy
+    environment:
+      - DATABASE_NAME=${DB_NAME}
+      - DATABASE_USERNAME=${DB_USER}
+      - DATABASE_PASSWORD=${DB_USER_PASSWORD}
+      - DATABASE_HOST=huginn_db
+      - DATABASE_ENCODING=utf8mb4
+      - APP_SECRET_TOKEN=${APP_SECRET_TOKEN}
+      - INVITATION_CODE=${INVITATION_CODE}
+      - LOCK_STRATEGY=${LOCK_STRATEGY}
+      - MAX_FAILED_LOGIN_ATTEMPTS=${MAX_FAILED_LOGIN_ATTEMPTS}
+      - UNLOCK_STRATEGY=${UNLOCK_STRATEGY}
+      - UNLOCK_AFTER=${UNLOCK_AFTER}
+      - TIMEZONE=${TIMEZONE}
+      - ENABLE_INSECURE_AGENTS=${ENABLE_INSECURE_AGENTS}
+    labels:
+      # Reverse proxy and certificate
+      - "traefik.enable=true"
+      - "traefik.docker.network=reverse-proxy"
+      # Website Configuration
+      - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}"
+      - "traefik.http.routers.${SERVICE_NAME}.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=3000"
+    depends_on:
+      - db
+  
+networks:
+  backend:
+    name: huginn 
+  reverse-proxy:
+    external: true
