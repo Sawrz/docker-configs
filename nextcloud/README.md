@@ -60,7 +60,7 @@ Everything you need to change before starting up the container is surrounded by 
    user has nothing to do with the Nextcloud user account! It's connected to the `DB_USER`, which manages all
    Nextcloud user accounts.
 
-1. Enter the URL you want GitLab to be reachable in `URL`.
+1. Enter the URL you want Nextcloud to be reachable in `URL`.
 
 1. Choose a user name for the Nextcloud administrator and set the value in `ADMIN_USER`.
 

@@ -39,7 +39,7 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
-1. Enter the URL you want GitLab to be reachable in `URL`.
+1. Enter the URL you want Wekan to be reachable in `URL`.
 
 ### Setup the URL
 

@@ -40,7 +40,7 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Choose a password for your WebDAV service and set the value in `PASSWORD`.
 
-1. Enter the URL you want GitLab to be reachable in `URL`.
+1. Enter the URL you want WebDAV to be reachable in `URL`.
 
 ### Edit docker-compose-file
 
