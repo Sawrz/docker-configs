@@ -1,6 +1,7 @@
 # Docker Container for traefik
 
-[traefik](https://github.com/traefik/traefik) is an HTTP reverse proxy and load balancer. Most of the other configurations in this repository depend on it.
+[traefik](https://github.com/traefik/traefik) is an HTTP reverse proxy and load balancer. Most of the
+other configurations in this repository depend on it.
 
 ## Preparations
 
