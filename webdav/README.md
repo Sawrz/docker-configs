@@ -60,11 +60,11 @@ In case you added multiple folders, copy the whole `bind` block and paste it bel
 
 ``` yaml
 - type: bind
-        target: /var/lib/dav/data/files
-        source: ${ROOT_DIR}/data/files
+  target: /var/lib/dav/data/files
+  source: ${ROOT_DIR}/data/files
 - type: bind
-        target: /var/lib/dav/data/files
-        source: ${ROOT_DIR}/data/files
+  target: /var/lib/dav/data/files
+  source: ${ROOT_DIR}/data/files
 ```
 
 Now, follow the instruction above on how to use a different folder name.
