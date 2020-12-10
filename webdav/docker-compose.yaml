@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  webdav:
+    image: bytemark/webdav:${VERSION}
+    container_name: webdav_server
+    restart: always
+    environment:
+      - AUTH_TYPE=Basic
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
+    labels:
+      # Reverse proxy and certificate
+      - "traefik.enable=true"
+      - "traefik.docker.network=reverse-proxy"
+      # Website Configuration
+      - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}"
+      - "traefik.http.routers.${SERVICE_NAME}.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=80"
+    volumes:
+      - type: volume
+        target: /var/lib/dav
+        source: dav
+      - type: bind
+        target: /var/lib/dav/data/files
+        source: ${ROOT_DIR}/data/files
+    networks:
+      - reverse-proxy
+
+volumes:
+  dav:
+    name: webdav_data
+
+networks:
+  reverse-proxy:
+    external: true
