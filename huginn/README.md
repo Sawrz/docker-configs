@@ -39,7 +39,7 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Choose a password for your databases' *root user* and set the value in `DB_ROOT_PASSWORD`.
 
-1. Choose a password for your databases' *nextcloud user* and set the `DB_USER_PASSWORD` value. Keep in mind that the user has nothing to do with the Huginn user account! It's connected to the `DB_USER`, which manages all Huginn user accounts.
+1. Choose a password for your databases' *huginn user* and set the `DB_USER_PASSWORD` value. Keep in mind that the user has nothing to do with the Huginn user account! It's connected to the `DB_USER`, which manages all Huginn user accounts.
 
 1. Choose a secret app token and set the value in `APP_SECRET_TOKEN`.
 
