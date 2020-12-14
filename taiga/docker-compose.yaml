@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+
+    database:
+      image: postgres:${POSTGRES_VERSION}
+      container_name: taiga_db
+      environment:
+        POSTGRES_DB: ${DB_NAME}
+        POSTGRES_USER: ${DB_USER}
+        POSTGRES_PASSWORD: ${DB_USER_PASSWORD}
+      volumes:
+        - type: bind
+          target: /var/lib/postgresql/data
+          source: ${ROOT_DIR}/db
+      networks:
+        - backend
+
+    taiga:
+      image: quay.io/riotkit/taiga:${TAIGA_VERSION}
+      container_name: taiga_server
+      depends_on:
+        - database
+      volumes:
+        # all data placed in volumes are kept between container updates/deletion/recreation
+        - type: bind
+          target: /usr/src/taiga-back/media
+          source: ${ROOT_DIR}/media
+      environment:
+        - "DEBUG=False"
+        - "TAIGA_HOSTNAME=${URL}"
+        - "TAIGA_SCHEME=https"
+        - "TAIGA_SECRET_KEY=${SECRET_KEY}"
+        - "TAIGA_DEFAULT_LOCALE=${DEFAULT_LOCALE}"
+        - "TAIGA_ENABLE_WEBHOOKS=${ENABLE_WEBHOOKS}"
+        - "TAIGA_PLUGINS=${PLUGINS}"
+        - "TAIGA_DB_HOST=taiga_db"
+        - "TAIGA_DB_NAME=${DB_NAME}"
+        - "TAIGA_DB_USER=${DB_USER}"
+        - "TAIGA_DB_PASSWORD=${DB_USER_PASSWORD}"
+        - "TAIGA_ENABLE_EMAIL=${TAIGA_ENABLE_EMAIL}"
+        - "TAIGA_EMAIL_FROM=${TAIGA_EMAIL_FROM}"
+        - "TAIGA_EMAIL_USE_TLS=${TAIGA_EMAIL_USE_TLS}"
+        - "TAIGA_EMAIL_HOST=${TAIGA_EMAIL_HOST}"
+        - "TAIGA_EMAIL_PORT=${TAIGA_EMAIL_PORT}"
+        - "TAIGA_EMAIL_USER=${TAIGA_EMAIL_USER}"
+        - "TAIGA_EMAIL_PASS=${TAIGA_EMAIL_PASS}"
+      labels:
+        # Reverse proxy and certificate
+      - "traefik.enable=true"
+      - "traefik.docker.network=reverse-proxy"
+      # Website Configuration
+      - "traefik.http.routers.${SERVICE_NAME}.rule=Host(`${URL}`)"
+      - "traefik.http.routers.${SERVICE_NAME}.tls.certresolver=myresolver"
+      - "traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}"
+      - "traefik.http.routers.${SERVICE_NAME}.tls=true"
+      - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=80"
+      networks:
+        - backend
+        - reverse-proxy
+
+networks:
+  backend:
+    name: taiga
+  reverse-proxy:
+    external: true
