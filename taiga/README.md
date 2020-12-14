@@ -32,11 +32,13 @@ Everything you need to change before starting up the container is surrounded by 
     ```
 
 1. Check [here](https://quay.io/repository/riotkit/taiga?tab=tags) if there is a new version available. If that's
-the case, change the `VERSION` variable to that version.
+  the case, change the `VERSION` variable to that version.
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
-1. Choose a password for your databases' *taiga user* and set the `DB_USER_PASSWORD` value. Keep in mind that the user has nothing to do with the Taiga user account! It's connected to the `DB_USER`, which manages all Taiga user accounts.
+1. Choose a password for your databases' *taiga user* and set the `DB_USER_PASSWORD` value. Keep in mind that the
+  user has nothing to do with the Taiga user account! It's connected to the `DB_USER`, which manages all Taiga user
+  accounts.
 
 1. Choose a secret key and set the value in `SECRET_KEY`.
 
