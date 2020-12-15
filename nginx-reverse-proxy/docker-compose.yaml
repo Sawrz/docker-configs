@@ -1,0 +1,77 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    container_name: reverse-proxy_nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - type: volume
+        target: /usr/share/nginx/html
+        source: html
+      - type: volume
+        target: /etc/nginx/vhost.d
+        source: vhost
+      - type: volume
+        target: /etc/nginx/dhparam
+        source: dhparam
+      - type: bind
+        target: /tmp/docker.sock
+        source: /var/run/docker.sock
+        read_only: true
+      - type: bind
+        target: /etc/nginx/conf.d/uploadsize.conf
+        source: ${ROOT_DIR}/config/uploadsize.conf
+        read_only: true
+      - type: bind
+        target: /etc/nginx/certs
+        source: ${ROOT_DIR}/certs
+        read_only: true
+    environment:
+      - DHPARAM_GENERATION=false
+    networks:
+      - reverse-proxy
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-proxy-letsencrypt
+    volumes:
+      - type: volume
+        target: /usr/share/nginx/html
+        source: html
+      - type: volume
+        target: /etc/nginx/vhost.d
+        source: vhost
+      - type: volume
+        target: /etc/nginx/dhparam
+        source: dhparam
+      - type: bind
+        target: /tmp/docker.sock
+        source: /var/run/docker.sock
+        read_only: true
+      - type: bind
+        target: /etc/nginx/conf.d/uploadsize.conf
+        source: ${ROOT_DIR}/config/uploadsize.conf
+        read_only: true
+      - type: bind
+        target: /etc/nginx/certs
+        source: ${ROOT_DIR}/certs
+
+    networks:
+      - reverse-proxy
+    environment:
+      - DEFAULT_EMAIL=${EMAIL}
+
+volumes:
+  vhost:
+    name: reverse-proxy_vhost
+  html:
+    name: reverse-proxy_html
+  dhparam:
+    name: reverse-proxy_dhparam
+
+networks:
+  reverse-proxy:
+    name: reverse_proxy
