@@ -32,7 +32,8 @@ Everything you need to change before starting up the container is surrounded by 
     vim .env
     ```
 
-1. Check [here](https://hub.docker.com/r/bytemark/webdav/tags) if there is a new version available. If that's the case, change the `VERSION` variable to that version.
+1. Check [here](https://hub.docker.com/r/bytemark/webdav/tags) if there is a new version available.
+  If that's the case, change the `VERSION` variable to that version.
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
@@ -44,7 +45,8 @@ Everything you need to change before starting up the container is surrounded by 
 
 ### Edit docker-compose-file
 
-If you added more than one directory in data or named it differently from `files`, open `docker-compose.yaml`.
+If you added more than one directory in data or named it differently from `files`, open
+`docker-compose.yaml`.
 
 #### Different folder name
 
@@ -76,7 +78,7 @@ URLs on the interface of your domain host:
 
 1. The URL you chose for `URL` (from now on, we substitute the URL you chose with `URL`)
 
-### Generate Config
+## Run docker-compose File
 
 Start the Docker container with:
 
