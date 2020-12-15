@@ -1,4 +1,4 @@
-# Docker Container for Nextcloud
+# Docker Container for Wekan
 
 [Wekan](https://www.github.com/wekan/wekan) is a free and open-source collaborative kanban board
 application. Its feature set and its interface are similar to that of [Trello](https://trello.com/).
