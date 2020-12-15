@@ -9,12 +9,21 @@ First, we need to prepare some things before we can start the Docker container.
 
 ### Create Folders & Files
 
-All files of your service will be in your main directory (the folder with the Docker files). Now, create here
-subfolders to store your certificates:
+All files of your service will be in your main directory (the folder with the Docker files). Now,
+create here subfolders to store your certificates:
 
 ``` bash
-mkdir -p certs
+mkdir -p config certs
 ```
+
+Now, create the configuration file by copying `example.traefik.yml`:
+
+``` bash
+cp example.traefik.yml config/traefik.yml
+```
+
+Finally, open `traefik.yml` and change the `email` parameter from `<YOUR EMAIL ADDRESS>` to the Email
+address you want to use for your certificates.
 
 ### Edit the env-file
 
@@ -38,9 +47,6 @@ Everything you need to change before starting up the container is surrounded by 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
 ### Edit Configuration
-
-Open `traefik.yml` and change the `email` parameter from `<YOUR EMAIL ADDRESS>` to the Email address
-you want to use for your certificates.
 
 Finally, start the Docker container:
 
