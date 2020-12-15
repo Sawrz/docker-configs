@@ -4,7 +4,7 @@
 
 ## Preparations
 
-First, we need to prepare some things before we can actually start the Docker container.
+First, we need to prepare some things before we can start the Docker container.
 
 ### Create Folders & Files
 
@@ -57,9 +57,9 @@ docker-compose -p mediawiki up -d
 
 Keep in mind, you can exchange `mediawiki` for something else, e.g., `mediawiki-test`.
 
-Now, open your browser and enter your PCs IP, followed by the port `1337`. The address should look something like `192.168.0.12:1337`.
+Now, open your browser and enter your PCs' IP, followed by the port `1337`. The address should look something like `192.168.0.12:1337`.
 
-The configuration wizard page shows up. After starting the initialization, its first page, `Connect to Database`, is the most important one. We substitute the values you set in `.env` in the following by the variable name:
+The configuration wizard page shows up. After starting the initialization, its first page, `Connect to Database`, is the most important. We substitute the values you set in `.env` in the following by the variable name:
 
 - Database host: wiki-`SERVICE_NAME`_db
 - Database name: `DB_NAME`
@@ -136,7 +136,7 @@ interface of your domain host:
 
 ### Edit the docker-compose file
 
-This part is quickly done. Open `docker-compose.yaml`:
+Open `docker-compose.yaml`:
 
 ``` bash
 vim docker-compose.yaml
@@ -159,7 +159,7 @@ Finally, start the Docker containers with:
 docker-compose -p mediawiki up -d
 ```
 
-Keep in mind, you can exchange `mediawiki` for something else, e.g., `mediawiki-test`.
+Keep in mind; you can exchange `mediawiki` for something else, e.g., `mediawiki-test`.
 
 Enter your `URL` and log in with your username and password you chose.
 
@@ -176,7 +176,7 @@ docker exec -u root -it wiki-<SERVICE_NAME>_mediawiki /bin/bash
 
 ### Updating the Database
 
-In case you update to a newer version or install extensions which require a schema update (usually told in the docs), you need to update the database:
+In case you update to a newer version or install extensions that require a schema update (usually told in the docs), you need to update the database:
 
 1. Make sure you have a backup of your database in case something goes wrong.
 
