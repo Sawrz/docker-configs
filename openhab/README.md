@@ -4,7 +4,7 @@
 
 ## Preparations
 
-First, we need to prepare some things before we can actually start the Docker container.
+First, we need to prepare some things before we can start the Docker container.
 
 ### Create Folders & Files
 
