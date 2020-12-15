@@ -5,7 +5,7 @@ issue tracking, and a continuous integration pipeline, to name a few.
 
 ## Preparations
 
-First, we need to prepare some things before we can actually start the Docker container.
+First, we need to prepare some things before we can start the Docker container.
 
 ### Create Folders & Files
 
@@ -63,15 +63,15 @@ Enter your `URL` and choose a password. Log in with the username `root` and the 
 ## Administration
 
 As the `root` user, you have admin rights from the beginning. However, it's good practice to change your default
-username from `root` to something different. This prevents hackers from breaching your system by just guessing your
+username from `root` to something different. That prevents hackers from breaching your system by just guessing your
 password.
 
 ### Setup GitLab Email
 
-1. In case you use your own email server (e.g.
+1. In case you use your Email server (e.g.
    [mailu](https://gitlab.com/lazymedia/docker-configs/-/blob/master/mailu/README.md)), create the following email:
    gitlab@'URL'
-1. Navigate to your `config` folder (within the docker it's `/etc/gitlab/`) and edit the file `gitlab.rb`
+1. Navigate to your `config` folder (within the Docker, it's `/etc/gitlab/`) and edit the file `gitlab.rb`
 
 #### System Email
 
