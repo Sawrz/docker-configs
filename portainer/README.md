@@ -4,12 +4,12 @@
 
 ## Preparations
 
-First, we need to prepare some things before we can actually start the Docker container.
+First, we need to prepare some things before we can start the Docker container.
 
 ### Create Folders & Files
 
-All files of your service will be in your main directory (the folder with the Docker files). Now, create here
-subfolders to store your data:
+All files of your service will be in your main directory (the folder with the Docker files). Now,
+create here subfolders to store your data:
 
 ``` bash
 mkdir -p data
@@ -31,8 +31,8 @@ Everything you need to change before starting up the container is surrounded by 
     vim .env
     ```
 
-1. Check [here](https://hub.docker.com/r/portainer/portainer/tags) if there is a new version available. If that's the
-   case, change the `VERSION` variable to that version.
+1. Check [here](https://hub.docker.com/r/portainer/portainer/tags) if there is a new version
+    available. If that's the case, change the `VERSION` variable to that version.
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
@@ -44,5 +44,5 @@ Finally, start the Docker container with:
 docker-compose -p portainer up -d
 ```
 
-Enter your PC's IP address, not the Docker containers, followed by colons, and `9000`. Assuming your PC's IP address is
-`172.168.1.6`, you need to enter `172.168.1.6:9000` in your browser.
+Enter your PC's IP address, not the Docker containers, followed by colons, and `9000`. Assuming your
+PC's IP address is `172.168.1.6`, you need to enter `172.168.1.6:9000` in your browser.
