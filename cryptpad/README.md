@@ -1,17 +1,18 @@
 # Docker Container for CryptPad
 
-[CryptPad](https://github.com/xwiki-labs/cryptpad) is a zero-knowledge collaborative editor. It provides many features
-you would expect from [Google Docs, Sheets, Slides, etc](https://www.google.com/sheets/about/). In contrast to Google,
+[CryptPad](https://github.com/xwiki-labs/cryptpad) is a zero-knowledge collaborative editor.
+It provides many features you would expect from
+[Google Docs, Sheets, Slides, etc.](https://www.google.com/sheets/about/). In contrast to Google,
 however, CryptPad focuses on privacy and encrypts your data. Another benefit is that the
-[Docker container](https://github.com/xwiki-labs/cryptpad-docker) runs on your server, so you have the most possible
-level of control.
+[Docker container](https://github.com/xwiki-labs/cryptpad-docker) runs on your server, so you have an
+increased level of control.
 
-My main gripe with CryptPad is, you can't close the registration quickly. Therefore, I don't use it right now but keep
-an eye on it.
+My main gripe with CryptPad is, you can't close the registration quickly. Therefore, I don't use it
+right now but keep an eye on it.
 
 ## Preparations
 
-First, we need to prepare some things before we can actually start the Docker container.
+First, we need to prepare some things before we can start the Docker container.
 
 ### Create Folders & Files
 
@@ -57,8 +58,8 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Enter the URL you want CryptPad to be reachable in `URL`.
 
-1. Enter a sandbox URL you want CryptPad to be reachable in `SANDBOX_URL`. That URL is not very important in production
-   environments, but its included for the sake of completeness.
+1. Enter a sandbox URL you want CryptPad to be reachable in `SANDBOX_URL`. That URL is not very important in a production
+   environment, but it's here for the sake of completeness.
 
 ### Setup the URLs
 
@@ -75,7 +76,7 @@ Finally, start the Docker container with:
 docker-compose -p cryptpad up -d
 ```
 
-Open your URL and Sign Up. Now you have access to your own CrypPad instance.
+Open your URL and Sign Up. Now you have access to your CrypPad instance.
 
 ## Get Admin Rights
 
