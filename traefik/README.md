@@ -41,8 +41,8 @@ Everything you need to change before starting up the container is surrounded by 
     vim .env
     ```
 
-1. Check [here](https://hub.docker.com/_/traefik/?tab=tags) if there is a new version available. If that's the
-   case, change the `VERSION` variable to that version.
+1. Check [here](https://hub.docker.com/_/traefik/?tab=tags) if there is a new version available. If
+    that's the case, change the `VERSION` variable to that version.
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
