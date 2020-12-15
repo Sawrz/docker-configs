@@ -6,7 +6,7 @@ needs.
 
 ## Preparations
 
-First, we need to prepare some things before we can actually start the Docker container.
+First, we need to prepare some things before we can start the Docker container.
 
 ### Create Volumes
 
@@ -56,9 +56,9 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Choose a password for your databases' *root user* and set the value in `DB_ROOT_PASSWORD`.
 
-1. Choose a password for your databases' *nextcloud user* and set the `DB_USER_PASSWORD` value. Keep in mind that the
-   user has nothing to do with the Nextcloud user account! It's connected to the `DB_USER`, which manages all
-   Nextcloud user accounts.
+1. Choose a password for your databases' *nextcloud user* and set the `DB_USER_PASSWORD` value. Keep
+  in mind that the user has nothing to do with the Nextcloud user account! It's connected to the
+  `DB_USER`, which manages all Nextcloud user accounts.
 
 1. Enter the URL you want Nextcloud to be reachable in `URL`.
 
@@ -83,8 +83,7 @@ interface of your domain host:
 
 ### Configure Nextcloud
 
-Now, you want to set up an URL and change the protocol to `https`. You need to be in your main Nextcloud directory for
-that.
+Now, you want to set up an URL and change the protocol to `https`. You must be in your main Nextcloud directory for that.
 
 1. Open the `config.php`:
 
@@ -92,13 +91,15 @@ that.
    sudo vim html/config/config.php
    ```
 
-1. Search for a line with `overwriteprotocol` or create a new one. In the end that line needs to look like this:
+1. Search for a line with `overwriteprotocol` or create a new one. In the end, that line needs to
+  look like this:
 
    ```php
    'overwriteprotocol' => 'https',
    ```
 
-1. Sarch for an entry with `trusted_domains` and enter your `URL`s value. You want something like this:
+1. Sarch for an entry with `trusted_domains` and enter your `URL`s value. You want something like
+  this:
 
     ```php
     'trusted_domains' => array (
@@ -123,8 +124,8 @@ Enter your `URL` and log in with the username you chose for `ADMIN_USER` and the
 
 ## Administration
 
-This section focuses less on the administration you can do via the web-interface and more on the Docker container
-administration.
+This section focuses less on the administration you can do via the web-interface and more on the
+Docker container administration.
 
 You need to log into the container `nextcloud_server` as the user `www-data`:
 
@@ -140,15 +141,16 @@ Reset your admin password with the following command:
 php /var/www/html/occ user:resetpassword <ADMIN_USER>
 ```
 
-Again, `<ADMIN_USER>` equals `ADMIN_USER`, but due to Markdown syntax, I need another way to clarify that the value
-depends on the user.
+Again, `<ADMIN_USER>` equals `ADMIN_USER`, but due to Markdown syntax, I need another way to clarify
+that the value depends on the user.
 
 Similarly, you can reset the password for any other user. However, it's easier to do that via the web-interface.
 
 ### Troubleshooting
 
-Sometimes you get error messages, or the Nextcloud won't start properly. Again, most of the solutions need you to log
-into `nextcloud_server`. In rare cases, you don't. I will mention that explicitly.
+Sometimes you get error messages, or the Nextcloud won't start properly. Again, most of the
+solutions need you to log into `nextcloud_server`. In rare cases, you don't. I will mention that
+explicitly.
 
 #### Add Missing Indices to Database
 
@@ -160,8 +162,8 @@ php /var/www/html/occ db:add-missing-indices
 
 #### Update Entries in Database
 
-In some instances, your database entries need an update. However, Nextcloud will tell you that. Run this command to
-fix update them:
+In some instances, your database entries need an update. However, Nextcloud will tell you that. Run
+this command to fix update them:
 
 ``` bash
 php /var/www/html/occ db:convert-filecache-bigint
@@ -175,8 +177,9 @@ you.
 An error in the `Overview` tab of your administration settings might appear, telling you the data's permissions are
 not right, and no .ocdata exists in that data directory.
 
-It's always a good idea to check the permissions first. Next, check if `.ocdata` exists. If both are correctly set,
-try the following:
+It's always a good idea to check the permissions first. Next, check if `.ocdata` exists.
+
+If `.ocdata` exists with correct permissions, try the following:
 
 1. Open the `Basic Settings` tab.
 
