@@ -4,7 +4,7 @@
 
 ## Preparations
 
-First, we need to prepare some things before we can actually start the Docker container.
+First, we need to prepare some things before we can start the Docker container.
 
 ### Create Folders & Files
 
@@ -39,7 +39,7 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
-1. Enter the IP address of your docker containers network in `RESOLVER_IP`.
+1. Enter the IP address of your Docker containers' network in `RESOLVER_IP`.
 
 1. Change `TRAEFIK_CERTS_DIR`s value to the path you store the SSL certificates obtained by traefik.
 
@@ -57,11 +57,10 @@ Everything you need to change before starting up the container is surrounded by 
     vim mailu.env
     ```
 
-1. Enter the gateway IP of your docker containers network in `SUBNET`. If your gateway is `172.1.0.1`, for example,
+1. Enter the gateway IP of your Docker containers' network in `SUBNET`. If your gateway is `172.1.0.1`, for example,
    enter `172.1.0.1/16`.
 
-1. Set your domain for `DOMAIN`. For example, your webmail is reachable via `webmail.lazymedia.net`, you use for
-   `DOMAIN` `lazymedia.net`.
+1. Set your domain for `DOMAIN`. For example, your webmail is reachable via `webmail.lazymedia.net`, set `lazymedia.net` as `DOMAIN` .
 
 1. Enter the URL you want your webmail to be reachable in `HOSTNAMES`, e.g., `webmail.lazymedia.net`.
 
@@ -120,7 +119,7 @@ As the administrator, you can access the admin interface via `URL/admin`.
    following sections.
 
 To keep things more trackable, we agree that we start on the Admin Page with each new subsection. Furthermore, we call
-your web host domain administration page, "Domain Administration."
+your web hosts' domain administration page, "Domain Administration."
 
 #### DNS MX entry
 
@@ -143,8 +142,7 @@ That's the second entry on your Admin Page. As long as you don't activate SSL, i
 
 #### DKIM public key
 
-To enable SSL for that domain, click on `Generate keys`. Three additional rows appear. This is the public key, and you
-don't need to set it up in Domain Administration.
+To enable SSL for that domain, click on `Generate keys`. Three additional rows appear. That is the public key, and you don't need to set it up in Domain Administration.
 
 #### DNS DKIM entry
 
