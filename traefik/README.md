@@ -46,7 +46,7 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
-### Edit Configuration
+## Run docker-compose File
 
 Finally, start the Docker container:
 
