@@ -36,8 +36,6 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
-1. Change `DATA_DIR`s value to the path you want Nextcloud to store the data you upload.
-
 1. Choose a password for your databases' *root user* and set the value in `DB_ROOT_PASSWORD`.
 
 1. Choose a password for your databases' *Huginn user* and set the `DB_USER_PASSWORD` value. Keep in
@@ -60,7 +58,7 @@ URLs on the interface of your domain host:
 
 1. The URL you chose for `URL` (from now on, we substitute the URL you chose with `URL`)
 
-### Generate Config
+## Run docker-compose File
 
 Start the Docker container with:
 
