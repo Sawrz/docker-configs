@@ -1,8 +1,8 @@
 # Docker Container for Nextcloud
 
-[Nextcloud](https://nextcloud.com/) is free and open-source client-server software to create file hosting services,
-like Dropbox, Google Drive, and Office 365. With various plugins, Nextcloud is easily expandable to suit your specific
-needs.
+[Nextcloud](https://nextcloud.com/) is free and open-source client-server software to create file
+hosting services, like Dropbox, Google Drive, and Office 365. With various plugins, Nextcloud is
+easily expandable to suit your specific needs.
 
 ## Preparations
 
@@ -24,8 +24,8 @@ sudo docker volume ls
 
 ### Create Folders & Files
 
-All files of your service will be in your main directory (the folder with the Docker files). Now, create here
-subfolders to store your data:
+All files of your service will be in your main directory (the folder with the Docker files). Now,
+create here subfolders to store your data:
 
 ``` bash
 mkdir -p config db html
@@ -47,8 +47,8 @@ Everything you need to change before starting up the container is surrounded by 
     vim .env
     ```
 
-1. Check [here](https://hub.docker.com/_/nextcloud?tab=tags) if there is a new version available. If that's the
-   case, change the `VERSION` variable to that version.
+1. Check [here](https://hub.docker.com/_/nextcloud?tab=tags) if there is a new version available. If
+   that's the case, change the `VERSION` variable to that version.
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
@@ -57,8 +57,8 @@ Everything you need to change before starting up the container is surrounded by 
 1. Choose a password for your databases' *root user* and set the value in `DB_ROOT_PASSWORD`.
 
 1. Choose a password for your databases' *nextcloud user* and set the `DB_USER_PASSWORD` value. Keep
-  in mind that the user has nothing to do with the Nextcloud user account! It's connected to the
-  `DB_USER`, which manages all Nextcloud user accounts.
+   in mind that the user has nothing to do with the Nextcloud user account! It's connected to the
+   `DB_USER`, which manages all Nextcloud user accounts.
 
 1. Enter the URL you want Nextcloud to be reachable in `URL`.
 
@@ -76,14 +76,15 @@ docker-compose -p nextcloud up -d
 
 ### Setup the URL
 
-This part has less to do with Docker but more with the Domain administration. Create the following URLs on the
-interface of your domain host:
+This part has less to do with Docker but more with the Domain administration. Create the following
+URLs on the interface of your domain host:
 
 1. The URL you chose for `URL` (from now on, we substitute the URL you chose with `URL`)
 
 ### Configure Nextcloud
 
-Now, you want to set up an URL and change the protocol to `https`. You must be in your main Nextcloud directory for that.
+Now, you want to set up an URL and change the protocol to `https`. You must be in your main
+Nextcloud directory for that.
 
 1. Open the `config.php`:
 
@@ -120,7 +121,24 @@ Now, you want to set up an URL and change the protocol to `https`. You must be i
 
 ## Login to Nextcloud
 
-Enter your `URL` and log in with the username you chose for `ADMIN_USER` and the password you set `ADMIN_PASSWORD` to.
+Enter your `URL` and log in with the username you chose for `ADMIN_USER` and the password you set
+`ADMIN_PASSWORD` to.
+
+## Cron Job
+
+As of now, the cron jobs won't start automatically in my configuration. As a result, your Nextcloud
+instance can't do maintenance jobs regularly. You find
+[here](https://github.com/nextcloud/docker/issues/627) multiple solutions to deal with that but the
+following works best for my configuration.
+
+Log in to the host server of your Docker containers and add the following crontab entry:
+
+```bash
+*/5 * * * * docker exec -u www-data nextcloud_server php cron.php
+```
+
+It's not the most elegant solution but a working one. Again, take a look in
+[GitHub issue 627](https://github.com/nextcloud/docker/issues/627) for alternative approaches.
 
 ## Troubleshooting
 
@@ -159,7 +177,8 @@ php /var/www/html/occ user:resetpassword <ADMIN_USER>
 Again, `<ADMIN_USER>` equals `ADMIN_USER`, but due to Markdown syntax, I need another way to clarify
 that the value depends on the user.
 
-Similarly, you can reset the password for any other user. However, it's easier to do that via the web-interface.
+Similarly, you can reset the password for any other user. However, it's easier to do that via the
+web-interface.
 
 #### Add Missing Indices to Database
 
@@ -178,8 +197,8 @@ this command to fix update them:
 php /var/www/html/occ db:convert-filecache-bigint
 ```
 
-This command expands the integer bits. Read the error message/warning carefully what to convert. Usually, it will tell
-you.
+This command expands the integer bits. Read the error message/warning carefully what to convert.
+Usually, it will tell you.
 
 #### Can't delete file
 
@@ -190,7 +209,8 @@ command as a troubleshooting step:
 php /var/www/html/occ files:scan --all
 ```
 
-This step may take some time to finish, but you get a very detailed error message if something went wrong.
+This step may take some time to finish, but you get a very detailed error message if something went
+wrong.
 
 If you get an error message, enable the maintenance mode with this command:
 
@@ -209,8 +229,8 @@ php /var/www/html/occ maintenance:mode --off
 
 #### It was not possible to execute the cron job via CLI
 
-An error in the `Overview` tab of your administration settings might appear, telling you the data's permissions are
-not right, and no .ocdata exists in that data directory.
+An error in the `Overview` tab of your administration settings might appear, telling you the data's
+permissions are not right, and no .ocdata exists in that data directory.
 
 It's always a good idea to check the permissions first. Next, check if `.ocdata` exists.
 
