@@ -81,7 +81,12 @@ services:
       - "traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure"
       - "traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}"
       - "traefik.http.routers.${SERVICE_NAME}.tls=true"
+      - "traefik.http.routers.${SERVICE_NAME}.middlewares=${SERVICE_NAME}_regex"
       - "traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=80"
+      # Middleware Configuration
+      - "traefik.http.middlewares.${SERVICE_NAME}_regex.redirectregex.permanent=true"
+      - "traefik.http.middlewares.${SERVICE_NAME}_regex.redirectregex.regex=https://(.*)/.well-known/(card|cal)dav"
+      - "traefik.http.middlewares.${SERVICE_NAME}_regex.redirectregex.replacement=https://$${1}/remote.php/dav/"
     depends_on:
       - nextcloud
 
@@ -112,3 +117,4 @@ networks:
 volumes:
   redis_data:
     name: nextcloud-redis_data
+
