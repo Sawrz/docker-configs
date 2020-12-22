@@ -124,22 +124,6 @@ Nextcloud directory for that.
 Enter your `URL` and log in with the username you chose for `ADMIN_USER` and the password you set
 `ADMIN_PASSWORD` to.
 
-## Cron Job
-
-As of now, the cron jobs won't start automatically in my configuration. As a result, your Nextcloud
-instance can't do maintenance jobs regularly. You find
-[here](https://github.com/nextcloud/docker/issues/627) multiple solutions to deal with that but the
-following works best for my configuration.
-
-Log in to the host server of your Docker containers and add the following crontab entry:
-
-```bash
-*/5 * * * * docker exec -u www-data nextcloud_server php cron.php
-```
-
-It's not the most elegant solution but a working one. Again, take a look in
-[GitHub issue 627](https://github.com/nextcloud/docker/issues/627) for alternative approaches.
-
 ## Troubleshooting
 
 Although running your Nextcloud instance has many benefits and frees you from handing your precious

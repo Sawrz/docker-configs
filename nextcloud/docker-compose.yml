@@ -91,6 +91,9 @@ services:
     restart: always
     volumes:
       - type: bind
+        target: /var/www/html/data
+        source: ${DATA_DIR}/data
+      - type: bind
         target: /var/www/html
         source: ${ROOT_DIR}/html
     networks:
