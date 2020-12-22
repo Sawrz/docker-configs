@@ -99,7 +99,17 @@ Nextcloud directory for that.
    'overwriteprotocol' => 'https',
    ```
 
-1. Sarch for an entry with `trusted_domains` and enter your `URL`s value. You want something like
+1. Search for a line with `trusted_proxies` or create a new one. In the end, that line needs to
+  look like this:
+
+   ```php
+   'trusted_proxies' => 'traefik',
+   ```
+
+  Here, I assume you run my
+  [traefik](https://gitlab.com/lazymedia/docker-configs/-/tree/master/traefik) container.
+
+1. Search for an entry with `trusted_domains` and enter your `URL`s value. You want something like
   this:
 
     ```php
