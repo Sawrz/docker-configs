@@ -122,10 +122,16 @@ Now, you want to set up an URL and change the protocol to `https`. You must be i
 
 Enter your `URL` and log in with the username you chose for `ADMIN_USER` and the password you set `ADMIN_PASSWORD` to.
 
-## Administration
+## Troubleshooting
 
-This section focuses less on the administration you can do via the web-interface and more on the
-Docker container administration.
+Although running your Nextcloud instance has many benefits and frees you from handing your precious
+data to other cloud providers, you may run into issues along the way. This section documents the
+problems I ran into, which needed a bit of research to find a proper solution.
+
+However, Nextclouds **Overview** tab in the settings menu is helpful as well. Read the *Security &
+Setup warnings* thoroughly, and you might find the solution you need there.
+
+### Nextcloud Server
 
 You need to log into the container `nextcloud_server` as the user `www-data`:
 
@@ -133,7 +139,16 @@ You need to log into the container `nextcloud_server` as the user `www-data`:
 docker exec -u www-data -it nextcloud_server /bin/bash
 ```
 
-### Reset Admin Password
+#### Upgrade
+
+If you upgrade your Nextcloud container, not everything gets updated as well, e.g., plugins. You can
+fix that with a manual update:
+
+```bash
+php /var/www/html/occ upgrade
+```
+
+#### Reset Admin Password
 
 Reset your admin password with the following command:
 
@@ -145,12 +160,6 @@ Again, `<ADMIN_USER>` equals `ADMIN_USER`, but due to Markdown syntax, I need an
 that the value depends on the user.
 
 Similarly, you can reset the password for any other user. However, it's easier to do that via the web-interface.
-
-### Troubleshooting
-
-Sometimes you get error messages, or the Nextcloud won't start properly. Again, most of the
-solutions need you to log into `nextcloud_server`. In rare cases, you don't. I will mention that
-explicitly.
 
 #### Add Missing Indices to Database
 
@@ -172,6 +181,32 @@ php /var/www/html/occ db:convert-filecache-bigint
 This command expands the integer bits. Read the error message/warning carefully what to convert. Usually, it will tell
 you.
 
+#### Can't delete file
+
+Sometimes, you can't delete a file/folder in the Nextcloud interface. I recommend the following
+command as a troubleshooting step:
+
+```bash
+php /var/www/html/occ files:scan --all
+```
+
+This step may take some time to finish, but you get a very detailed error message if something went wrong.
+
+If you get an error message, enable the maintenance mode with this command:
+
+```bash
+php /var/www/html/occ maintenance:mode --on
+```
+
+In case the error message is about a *locked file* go to the **Nextcloud Database** Subsection and
+read the entry about **Unlock File**.
+
+Remember to disable the maintenance mode after you finished your troubleshooting with:
+
+```bash
+php /var/www/html/occ maintenance:mode --off
+```
+
 #### It was not possible to execute the cron job via CLI
 
 An error in the `Overview` tab of your administration settings might appear, telling you the data's permissions are
@@ -188,3 +223,35 @@ If `.ocdata` exists with correct permissions, try the following:
 1. Run the `Overview` check again.
 
 1. Switch back to `Cron` or `AJAX`.
+
+### Nextcloud Database
+
+You need to log into the container `nextcloud_db` as the user `root`:
+
+``` bash
+docker exec -u root -it nextcloud_db /bin/bash
+```
+
+#### Unlock file
+
+Run the following command to start MariaDB:
+
+```bash
+mysql -u nextcloud -p
+```
+
+Enter the password you set for `DB_USER_PASSWORD` in your `.env` file.
+
+Connect to the `nextcloud` database via:
+
+```bash
+connect nextcloud
+```
+
+Now, run the following command:
+
+```sql
+DELETE FROM oc_file_locks WHERE 1;
+```
+
+Finally, disable the maintenance mode as described above.
