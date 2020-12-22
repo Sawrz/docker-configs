@@ -31,6 +31,12 @@ create here subfolders to store your data:
 mkdir -p config db html
 ```
 
+Now, create the configuration file by copying `example.nginx.conf`:
+
+``` bash
+cp example.nginx.conf config/nginx.conf
+```
+
 ### Edit the env-file
 
 Everything you need to change before starting up the container is surrounded by `<>`.
