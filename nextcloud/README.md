@@ -112,8 +112,8 @@ Nextcloud directory for that.
    'trusted_proxies' => 'traefik',
    ```
 
-  Here, I assume you run my
-  [traefik](https://gitlab.com/lazymedia/docker-configs/-/tree/master/traefik) container.
+   Here, I assume you run my
+   [traefik](https://gitlab.com/lazymedia/docker-configs/-/tree/master/traefik) container.
 
 1. Search for an entry with `trusted_domains` and enter your `URL`s value. You want something like
   this:
