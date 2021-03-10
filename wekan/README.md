@@ -12,7 +12,7 @@ First, we need to prepare some things before we can start the Docker container.
 All files of your service will be in your main directory (the folder with the Docker files). Now,
 create here subfolders to store your data:
 
-``` bash
+```bash
 mkdir -p db/data db/dump
 ```
 
@@ -22,21 +22,21 @@ Everything you need to change before starting up the container is surrounded by 
 
 1. Copy the `example.env` file and name it `.env`:
 
-    ``` bash
-    cp example.env .env
-    ```
+   ```bash
+   cp example.env .env
+   ```
 
 1. Open `.env`:
 
-    ``` bash
-    vim .env
-    ```
+   ```bash
+   vim .env
+   ```
 
-1. Check [here](https://hub.docker.com/r/wekanteam/wekan/tags) if there is a new version available.
-    If that's the case, change the `WEKAN_VERSION` variable to that version.
+1. Check [here](https://quay.io/repository/wekan/wekan?tab=tags) if there is a new version available.
+   If that's the case, change the `WEKAN_VERSION` variable to that version.
 
 1. Check [here](https://hub.docker.com/_/mongo?tab=tags) if there is a new version available. If
-    that's the case, change the `MONGODB_VERSION` variable to that version.
+   that's the case, change the `MONGODB_VERSION` variable to that version.
 
 1. Change `ROOT_DIR`s value to the path of your main directory.
 
@@ -53,7 +53,7 @@ URLs on the interface of your domain host:
 
 Finally, start the Docker container with:
 
-``` bash
+```bash
 docker-compose -p wekan up -d
 ```
 

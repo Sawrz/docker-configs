@@ -16,7 +16,7 @@ services:
       networks:
         - backend
   wekan:
-    image: "wekanteam/wekan:${WEKAN_VERSION}"
+    image: "quay.io/wekan/wekan:${WEKAN_VERSION}"
     container_name: wekan_server
     restart: always
     networks:
