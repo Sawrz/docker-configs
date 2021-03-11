@@ -17,7 +17,7 @@ mkdir -p db media static gateway
 
 Now, create the configuration file by copying `example.taiga.conf`:
 
-``` bash
+```bash
 cp example.taiga.conf gateway/taiga.conf
 ```
 
@@ -82,9 +82,13 @@ Finally, start the Docker container with:
 docker-compose -p taiga up -d
 ```
 
-Now, you need to create the first user, which serves as an admin too. Run `./taiga-manage.sh createsuperuser`. Follow the instructions to finish the setup.
+Now, you need to create the first user, which serves as an admin too. Run the `taiga-manage.sh` shell script:
 
-Enter your URL and enjoying Taiga!
+```bash
+./taiga-manage.sh createsuperuser
+```
+
+Follow the instructions to finish the setup. Finally, enter your URL and enjoy Taiga!
 
 ## Administration
 
