@@ -12,7 +12,7 @@ All files of your service will be in your main directory (the folder with the Do
 create here subfolders to store your data:
 
 ``` bash
-mkdir -p db media
+mkdir -p db media static
 ```
 
 ### Edit the env-file
