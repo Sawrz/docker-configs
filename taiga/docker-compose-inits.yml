@@ -1,0 +1,37 @@
+version: "3.5"
+
+x-environment:
+  &default-back-environment
+  # Database settings
+  POSTGRES_DB: ${DB_NAME}
+  POSTGRES_USER: ${DB_USER}
+  POSTGRES_PASSWORD: ${DB_USER_PASSWORD}
+  POSTGRES_HOST: taiga-db
+  # Taiga settings
+  TAIGA_SECRET_KEY: "${SECRET_KEY}"
+  # these rabbitmq settings should be the same as
+  # in taiga-rabbitmq and taiga-events services
+  RABBITMQ_USER: ${RABBIT_USER}
+  RABBITMQ_PASS: ${RABBIT_PASSWORD}
+  CELERY_ENABLED: "False"
+
+x-volumes:
+  &default-back-volumes
+  - ${ROOT_DIR}/static:/taiga-back/static
+  - ${ROOT_DIR}/media:/taiga-back/media
+  # - ./config.py:/taiga-back/settings/config.py
+
+services:
+  taiga-manage:
+    image: taigaio/taiga-back:${TAIGA_VERSION}
+    environment: *default-back-environment
+    depends_on:
+      - taiga-db
+    entrypoint: "python manage.py"
+    volumes: *default-back-volumes
+    networks:
+      - taiga
+
+networks:
+  taiga:
+    external: true
