@@ -19,6 +19,7 @@ services:
       - authentication_type=${AUTHENTICATION_TYPE}
       - synchronisation_interval=${SYNCHRONIZATION_INTERVAL}
       - TZ=${TIME_ZONE}
+      - notification_title=${NOTIFICATION_TITLE}
       - notification_type=${NOTIFICATION_TYPE}
       - notification_days=${NOTIFICATION_DAYS}
       - telegram_token=${TELEGRAM_TOKEN}
