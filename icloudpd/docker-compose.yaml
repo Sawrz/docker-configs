@@ -1,0 +1,40 @@
+version: "3.8"
+
+volumes:
+  config:
+    name: icloudpd_config
+
+services:
+  icloudpd:
+    container_name: icloud_backup_${user}
+    image: boredazfcuk/icloudpd:${VERSION}
+    restart: always
+    hostname: icloudpd_${user}
+    environment:
+      - user=${USER}
+      - user_id=${USER_ID}
+      - group=${GROUP}
+      - group_id=${GROUP_ID}
+      - apple_id=${APPLE_ID}
+      - authentication_type=${AUTHENTICATION_TYPE}
+      - synchronisation_interval=${SYNCHRONIZATION_INTERVAL}
+      - TZ=${TIME_ZONE}
+      - notification_type=${NOTIFICATION_TYPE}
+      - notification_days=${NOTIFICATION_DAYS}
+      - telegram_token=${TELEGRAM_TOKEN}
+      - telegram_chat_id=${TELEGRAM_CHAT_ID}
+      - folder_structure=${FOLDER_STRUCTURE}
+      - convert_heic_to_jpeg=${CONVERT_HEIC_TO_JPEG}
+      - command_line_options=${COMMAND_LINE_OPTIONS}
+      - download_notifications=${DOWNLOAD_NOTIFICATIONS}
+      - delete_notifications=${DELETE_NOTIFICATIONS}
+      - auto_delete=${AUTO_DELETE}
+      - delete_empty_directories=${DELETE_EMPTY_DIRECTORIES}
+    volumes:
+      - config:/config
+      - type: bind
+        target: /home/${user}/iCloud/
+        source: ${DATA_DIR}
+    healthcheck:
+      test: /usr/local/bin/healthcheck.sh
+      start_period: 30s
