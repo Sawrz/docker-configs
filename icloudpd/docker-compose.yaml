@@ -2,14 +2,14 @@ version: "3.8"
 
 volumes:
   config:
-    name: icloudpd_${user}_config
+    name: icloudpd_${USER}_config
 
 services:
   icloudpd:
-    container_name: icloud_backup_${user}
+    container_name: icloud_backup_${USER}
     image: boredazfcuk/icloudpd:${IMAGE_VERSION}
     restart: always
-    hostname: icloudpd_${user}
+    hostname: icloudpd_${USER}
     environment:
       - user=${USER}
       - user_id=${USER_ID}
@@ -33,7 +33,7 @@ services:
     volumes:
       - config:/config
       - type: bind
-        target: /home/${user}/iCloud/
+        target: /home/${USER}/iCloud/
         source: ${DATA_DIR}
     healthcheck:
       test: /usr/local/bin/healthcheck.sh
