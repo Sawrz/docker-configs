@@ -2,11 +2,11 @@ version: "3.8"
 
 volumes:
   config:
-    name: icloudpd_${USER}_config
+    name: icloudpd_${BACKUP_NAME}_config
 
 services:
   icloudpd:
-    container_name: icloud_backup_${USER}
+    container_name: icloud_backup_${BACKUP_NAME}
     image: boredazfcuk/icloudpd:${IMAGE_VERSION}
     restart: always
     hostname: icloudpd_${USER}
